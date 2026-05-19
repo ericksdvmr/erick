@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Erick's Bakery</title>
+
+<style>
+
+body{
+  font-family: Arial, sans-serif;
+  background: #f5deb3;
+  margin: 0;
+}
+
+/* HEADER */
+header{
+  background: #a0522d;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* GRID PRODUCTOS */
+ul{
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 260px);
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* TARJETAS */
+li{
+  background: white;
+  padding: 15px;
+  width: 230px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  opacity: 0;
+  transform: translateY(50px);
+  animation: fadeInUp 1s forwards;
+}
+
+li:nth-child(1){ animation-delay: 0.2s; }
+li:nth-child(2){ animation-delay: 0.4s; }
+li:nth-child(3){ animation-delay: 0.6s; }
+li:nth-child(4){ animation-delay: 0.8s; }
+li:nth-child(5){ animation-delay: 1s; }
+
+@keyframes fadeInUp{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* IMÁGENES */
+li img{
+  width: 150px;
+  border-radius: 10px;
+  margin: 10px auto;
+  transition: transform 0.3s;
+}
+
+li img:hover{
+  transform: translateY(-10px) scale(1.05);
+}
+
+/* BOTÓN */
+button{
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  background: #a0522d;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover{
+  background: #8b3e2f;
+}
+
+/* ELIMINAR */
+.delete-btn{
+  margin-left: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 3px 6px;
+  font-size: 0.8rem;
+}
+
+.delete-btn:hover{
+  background: darkred;
+}
+
+/* CARRITO */
+.cart{
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  width: 55px;
+  height: 55px;
+  background: #a0522d;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.cart-count{
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: red;
+  color: white;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* PANEL */
+.cart-popup{
+  position: fixed;
+  bottom: 80px;
+  right: 15px;
+  width: 280px;
+  background: white;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: 0.4s;
+}
+
+.cart-popup.active{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.cart-popup ul{
+  list-style: none;
+  padding: 0;
+}
+
+.cart-popup li{
+  background: #f5deb3;
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+/* TOTAL */
+.total{
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  color: #a0522d;
+}
+
+/* BOTÓN PAGAR */
+.pay-btn{
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: none;
+  background: green;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.pay-btn:hover{
+  background: darkgreen;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>🥐 Erick's Bakery 🥐</h1>
+<p>Productos deliciosos recién horneados</p>
+</header>
+
+<main>
+
+<ul>
+
+<li>
+<h3>Conchas</h3>
+<p class="price">$10</p>
+<img src="concha.jpg">
+<button class="add-to-cart">🛒</button>
+</li>
+
+<li>
+<h3>Pan integral</h3>
+<p class="price">$35</p>
+<img src="integra.jpg">
+<button class="add-to-cart">🛒</button>
+</li>
+
+<li>
+<h3>Galletas</h3>
+<p class="price">$25</p>
+<img src="galleta.jpg">
+<button class="add-to-cart">🛒</button>
+</li>
+
+<li>
+<h3>Pasteles</h3>
+<p class="price">$120</p>
+<img src="pastel.jpg">
+<button class="add-to-cart">🛒</button>
+</li>
+
+<li>
+<h3>Repostería</h3>
+<p class="price">$60</p>
+<img src="reposte.jpg">
+<button class="add-to-cart">🛒</button>
+</li>
+
+</ul>
+
+</main>
+
+<!-- CARRITO -->
+<div class="cart" id="cartBtn">
+🛒
+<div class="cart-count" id="cartCount">0</div>
+</div>
+
+<!-- PANEL -->
+<div class="cart-popup" id="cartPanel">
+
+<h3>🛍 Productos</h3>
+
+<ul id="cartItems"></ul>
+
+<div class="total" id="totalPrice">Total: $0</div>
+
+<button class="pay-btn" onclick="irAPagar()">💳 Pagar</button>
+
+</div>
+
+<script>
+
+let count = 0;
+let total = 0;
+
+const cartBtn = document.getElementById('cartBtn');
+const cartPanel = document.getElementById('cartPanel');
+const cartCount = document.getElementById('cartCount');
+const cartItems = document.getElementById('cartItems');
+const totalPrice = document.getElementById('totalPrice');
+
+const buttons = document.querySelectorAll('.add-to-cart');
+
+cartBtn.addEventListener('click', () => {
+  cartPanel.classList.toggle('active');
+});
+
+buttons.forEach(button => {
+
+  button.addEventListener('click', () => {
+
+    const product = button.parentElement;
+    const name = product.querySelector('h3').textContent;
+    const price = parseInt(product.querySelector('.price').textContent.replace('$',''));
+
+    count++;
+    total += price;
+
+    cartCount.textContent = count;
+    totalPrice.textContent = "Total: $" + total;
+
+    const li = document.createElement('li');
+
+    li.innerHTML = `
+      ${name} - $${price}
+      <button class="delete-btn">❌</button>
+    `;
+
+    cartItems.appendChild(li);
+
+    const deleteBtn = li.querySelector('.delete-btn');
+
+    deleteBtn.addEventListener('click', () => {
+
+      li.remove();
+      count--;
+      total -= price;
+
+      cartCount.textContent = count;
+      totalPrice.textContent = "Total: $" + total;
+
+    });
+
+  });
+
+});
+
+// PAGAR Y ABRIR NUEVA PESTAÑA
+function irAPagar(){
+
+  if(count === 0){
+    alert("🛒 El carrito está vacío");
+    return;
+  }
+
+  localStorage.setItem("totalPago", total);
+
+  window.open("pago.html", "_blank");
+
+  // limpiar carrito
+  cartItems.innerHTML = "";
+  count = 0;
+  total = 0;
+
+  cartCount.textContent = 0;
+  totalPrice.textContent = "Total: $0";
+}
+
+</script>
+
+</body>
+</html>
